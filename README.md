@@ -1,6 +1,12 @@
 # 修改了些什么
 
-* 修改plugin/image-dialog/image-dialog.js:在图片地址可直接粘贴截屏，会作为base64存到md内容，不是很友好，可以做base64上传。
+* 修改plugin/image-dialog/image-dialog.js:在图片地址可直接粘贴截屏，会作为base64存到md内容。
+
+
+# 优化
+* 存到md内容不是很友好，可以做base64上传。
+* 现阶段无法直接复制图片文件，然后粘贴。
+
 
 
 
