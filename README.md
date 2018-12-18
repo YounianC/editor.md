@@ -1,3 +1,10 @@
+# 修改了些什么
+
+* 修改plugin/image-dialog/image-dialog.js:在图片地址可直接粘贴截屏，会作为base64存到md内容，不是很友好，可以做base64上传。
+
+
+
+
 # Editor.md
 
 ![](https://pandao.github.io/editor.md/images/logos/editormd-logo-180x180.png)
