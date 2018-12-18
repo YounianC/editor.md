@@ -49,7 +49,7 @@
                 var dialogContent = ( (settings.imageUpload) ? "<form action=\"" + action +"\" target=\"" + iframeName + "\" method=\"post\" enctype=\"multipart/form-data\" class=\"" + classPrefix + "form\">" : "<div class=\"" + classPrefix + "form\">" ) +
                                         ( (settings.imageUpload) ? "<iframe name=\"" + iframeName + "\" id=\"" + iframeName + "\" guid=\"" + guid + "\"></iframe>" : "" ) +
                                         "<label>" + imageLang.url + "</label>" +
-                                        "<input type=\"text\" data-url />" + (function(){
+                                        "<input type=\"text\" placeholder=\"可以直接粘贴截屏（BASE64）\" data-url />" + (function(){
                                             return (settings.imageUpload) ? "<div class=\"" + classPrefix + "file-input\">" +
                                                                                 "<input type=\"file\" name=\"" + classPrefix + "image-file\" accept=\"image/*\" />" +
                                                                                 "<input type=\"submit\" value=\"" + imageLang.uploadButton + "\" />" +
@@ -124,6 +124,41 @@
 				if (!settings.imageUpload) {
                     return ;
                 }
+
+                var whenPasterDoUpload = function(event,input,action){
+                    var clipboardData = (event.originalEvent.clipboardData || window.clipboardData),
+                        i = 0, items, item, types;
+                    if( clipboardData ){
+                        items = clipboardData.items;
+                        if( !items )
+                            return;
+
+                        item = items[0];
+                        // 保存在剪贴板中的数据类型
+                        types = clipboardData.types || [];
+
+                        for( ; i < types.length; i++ ){
+                            if( types[i] === 'Files' ){
+                                item = items[i];
+                                break;
+                            }
+                        }
+
+                        // 判断是否为图片数据
+                        if( item && item.kind === 'file' && item.type.match(/^image\//i) ){
+                            // 读取该图片
+                            var file = item.getAsFile();
+
+                            var reader = new FileReader()
+                            reader.onload = function(event) {
+                                dialog.find("[data-url]").val(event.target.result);
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                }
+
+                dialog.find("[data-url]").bind("paste", whenPasterDoUpload);
 
 				var fileInput  = dialog.find("[name=\"" + classPrefix + "image-file\"]");
 
