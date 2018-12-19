@@ -2,6 +2,7 @@
 
 * 修改plugin/image-dialog/image-dialog.js:在图片地址可直接粘贴截屏，会作为base64存到md内容。
 
+![base63](base64.gif)
 
 # 优化
 * 存到md内容不是很友好，可以做base64上传。
